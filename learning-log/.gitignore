@@ -1,0 +1,6 @@
+# learning-log/runs/ 차단
+# 개별 실행 기록은 민감 데이터를 포함할 수 있으므로 git 추적에서 제외
+# README.md 와 .gitkeep 만 추적
+
+runs/*
+!runs/.gitkeep
