@@ -65,6 +65,12 @@ Each country has a dedicated guide (`references/countries/{kr,tw,th,jp,global}.m
 - Recommended research order
 - Common pitfalls (calendar systems, currency, informal economy)
 
+### Multi-Session Protocol (Large Runs)
+- Single OpenCode session has ~200K token context limit; Large research (6+ segments, 3+ countries, High defensibility) routinely exceeds this
+- `references/multi-session-protocol.md` defines 3 split patterns (3-session / 5-7-session / 10+-session) with bootstrap procedure, locked-items policy, CSV header pre-creation
+- Auto-apply when segments ≥ 6, countries ≥ 3, defensibility = High, 3+ options applied simultaneously, or expected evidence-log rows ≥ 200
+- ORCHESTRATOR checks session context (new run vs. resumed run) before SCOPER hand-off — no repeated SCOPER interview when resuming
+
 ## File Structure
 
 ```
@@ -72,7 +78,7 @@ research-consulting-team/
 ├── SKILL.md                          # Entry point (9-phase workflow)
 ├── README.md                         # This file
 ├── personas/                         # 11 agent personas (00-09)
-├── references/                       # 15 reference files
+├── references/                       # 15 reference files (14 specs + countries/)
 │   ├── source-tiers.md              # S/A/B/C/D/E/F tier definitions
 │   ├── confidence-rating.md         # High/Medium/Low/Insufficient
 │   ├── dual-sizing-methodology.md   # Bottom-up + Solution sum
@@ -81,6 +87,7 @@ research-consulting-team/
 │   ├── metrics-standard.md          # 1st metric per solution type
 │   ├── evidence-log-spec.md         # Option A: single file + status
 │   ├── calculation-log-spec.md      # Computation chain tracking
+│   ├── multi-session-protocol.md    # Multi-session split patterns for Large runs
 │   ├── methodology-template.md      # Market sizing template
 │   ├── report-template.md           # Report markdown format
 │   ├── view-spec.md                 # Table/slide spec conversion
@@ -117,6 +124,15 @@ research-consulting-team/
 - Citations < 100 words + source attribution mandatory
 
 ## Changelog
+
+### v1.7 (2026-05-30)
+- Add `references/multi-session-protocol.md` — 3 session-split patterns (3 / 5-7 / 10+ sessions), bootstrap procedure, locked-items policy, CSV header pre-creation
+- `personas/00-orchestrator.md`: session-context check (new run vs. resumed run) added before SCOPER hand-off
+- SKILL.md: project-size guidance expanded with auto-apply conditions (segments ≥ 6, countries ≥ 3, High defensibility, etc.)
+- Align CHECKER-A / CHECKER-B / WRITER personas with evidence-log spec:
+  - CHECKER-A primary output is `evidence-log.csv` status update (RAW → VERIFIED / REJECTED / SUPERSEDED), recomputation mandatory under Option A/D or High defensibility
+  - CHECKER-B finalizes evidence-log (zero RAW rows) and forces all-row status determination before INTEGRATOR hand-off
+  - WRITER cites VERIFIED rows only with explicit evidence ID (E001) per body citation
 
 ### v1.6 (2026-05-28)
 - Add `references/evidence-log-spec.md` — Option A (single file + status column)
