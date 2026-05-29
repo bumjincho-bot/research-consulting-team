@@ -136,6 +136,7 @@ user_invocable: true
 | 🆕 `references/metrics-standard.md` | **1차 지표 표준** — 솔루션별 맞춤 표현, 보조 가맹점 수, 매출 share 표 형식 |
 | 🆕 `references/calculation-log-spec.md` | **산출 로그** — 중간 계산 과정 기록 표준, 계산 체인 추적, CHECKER-A 검증 연동 |
 | 🆕 `references/evidence-log-spec.md` | **Evidence Log 표준** — 단일 파일 + status 컬럼 (RAW→VERIFIED/REJECTED), 실시간 append, 서브 에이전트 직접 쓰기 허용 |
+| 🆕 `references/multi-session-protocol.md` | **다중 세션 프로토콜** — Large 리서치를 여러 OpenCode 세션으로 분할 운영하는 표준 (session-log.md, NEXT-SESSION-GUIDE.md, CSV 헤더 사전 생성, 잠금 사항 변경 금지 등) |
 
 > **🆕 선택적 적용**: 위 4개 신규 reference 파일의 규칙은 SCOPER 단계에서 **옵션 메뉴** 로 사용자에게 적용 여부를 질문합니다. 방어 강도 High 시 전체 적용 권장, Low 시 선택 가능. 자세한 옵션 메뉴는 `personas/01-scoper.md` 의 "방법론 옵션 메뉴" 참조.
 
@@ -237,13 +238,15 @@ user_invocable: true
 
 ## 프로젝트 규모별 적용
 
-| 규모 | 세그먼트 수 | 국가 수 | 단계별 깊이 | 권장 |
+| 규모 | 세그먼트 수 | 국가 수 | 단계별 깊이 | 권장 세션 구조 |
 |---|---|---|---|---|
 | Small | 1-2 | 1 | 정상 | 단일 세션 |
-| Medium | 3-5 | 1-2 | 정상 | 2-3 세션, 단계 사이에 중간 보고 |
-| Large | 6+ | 3+ | 우선순위 차등 | 다중 세션, learning-log 적극 활용 |
+| Medium | 3-5 | 1-2 | 정상 | 2-3 세션 (`references/multi-session-protocol.md` 패턴 1) |
+| Large | 6+ | 3+ | 우선순위 차등 | 다중 세션 (`references/multi-session-protocol.md` 패턴 2 또는 3) |
 
 Large 의 경우, ORCHESTRATOR 가 우선순위 세그먼트만 풀 깊이로 처리하고 나머지는 lighter treatment 로 표기하는 옵션을 제안합니다.
+
+> **다중 세션 자동 적용 조건**: 세그먼트 ≥ 6, 국가 ≥ 3, 방어 강도 = High, 옵션 3개+ 동시 적용, 또는 ANALYST 예상 evidence-log 행 ≥ 200 중 **하나라도** 해당 시 다중 세션 패턴 적용 권장. SCOPER 단계에서 사용자에게 명시적으로 알릴 것 (`references/multi-session-protocol.md` § 1, § 11.1).
 
 ---
 
