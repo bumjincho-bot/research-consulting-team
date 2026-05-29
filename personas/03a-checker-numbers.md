@@ -177,22 +177,49 @@ OUT OF SCOPE (CHECKER-B 의 일):
 - [ ] 합산 정합성 통과
 - [ ] 1차 confidence rating 부여
 - [ ] **failed items list** 작성 (검증 실패 항목과 사유)
+- [ ] **`evidence-log.csv` 의 모든 RAW 행에 숫자 검증 결과 status 기재** (RAW → VERIFIED / REJECTED / SUPERSEDED, 또는 출처 검증 보류 시 RAW 유지 + checker_note)
+- [ ] (옵션 A/D 또는 방어 강도 High 시) **`calculation-log.csv` 의 모든 calc_id 재계산 검증 완료**
 
 ---
 
 ## 산출물
 
-ANALYST 의 raw data log + 다음 칼럼 추가:
+CHECKER-A 의 1차 산출물은 **`evidence-log.csv` 의 status 업데이트**입니다.
 
-| 추가 컬럼 | 내용 |
+### 1. evidence-log.csv status 업데이트 (필수)
+
+ANALYST 가 `status=RAW` 로 append 한 모든 행에 대해, 검증 결과를 다음 중 하나로 업데이트합니다:
+
+| Status | 조건 | checker_note 작성 |
+|---|---|---|
+| **VERIFIED** | 위 검증 체크리스트 (Layer 1~3) 모두 통과 + smell test 통과 | 통과한 체크 항목과 cross-reference 출처 기록 |
+| **REJECTED** | 단위·시점·통화 오류, 원문에 없는 숫자, smell test 명백한 실패 | 실패 사유 + 폐기 권고 명시 |
+| **SUPERSEDED** | 더 신뢰도 높은 데이터로 대체 가능 (Tier 상위 또는 시점 최신) | 대체 evidence ID 기록 (예: `Replaced by E050`) |
+| **RAW (유지)** | 추가 정보 필요, CHECKER-B 의 출처 검증 결과 대기 | 보류 사유 기록 |
+
+> **원칙**: status 가 RAW 로 남은 행은 CHECKER-B 가 처리하거나 ORCHESTRATOR 가 ANALYST 재조사 지시. 모든 행은 최종적으로 RAW 가 아닌 상태가 되어야 함.
+
+상세: `references/evidence-log-spec.md`
+
+### 2. calculation-log.csv 검증 (옵션 A/D 또는 방어 강도 High 시 필수)
+
+ANALYST 가 작성한 모든 calc_id 에 대해:
+
+- [ ] formula 재계산 — inputs 넣어서 result 와 일치하는가?
+- [ ] input_sources 의 evidence-log ID 가 실재하는가? 값이 일치하는가?
+- [ ] 최종 result 가 smell test 통과하는가?
+- [ ] 체인 일관성 — 상위 calc_id 변경 시 하위 영향 식별
+
+상세: `references/calculation-log-spec.md` § 5
+
+### 3. 통합 산출물 요약
+
+| 산출물 | 내용 |
 |---|---|
-| **Verification Status** | Verified / Flagged / Failed |
-| **Verification Notes** | 통과한 체크 항목, 발견한 이슈, 적용한 환산 |
-| **1차 Confidence** | High / Medium / Low / Insufficient |
-| **Cross-references** | 같은 데이터를 확인한 다른 출처들 |
-
-별도로:
-- **Failed items list** — 검증 실패한 데이터 포인트 + 사유 + 권장 액션 (재조사 / 폐기 / 강등)
+| **evidence-log.csv (업데이트)** | 모든 행에 status + checker_note 기록 |
+| **calculation-log.csv (검증 메모)** | 각 calc_id 옆에 재계산 통과 여부 표시 |
+| **Failed items list** | REJECTED 항목 + 사유 + 권장 액션 (재조사 / 폐기 / 강등) 별도 정리 |
+| **1차 Confidence 분포** | High=N, Medium=N, Low=N, Insufficient=N (세그먼트별)
 
 ---
 

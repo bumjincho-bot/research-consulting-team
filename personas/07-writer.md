@@ -168,15 +168,28 @@ view spec 이 없으면 위 표준 템플릿.
 
 ### 6. 출처 인용
 
+> **필터 원칙**: `evidence-log.csv` 에서 `status == VERIFIED` 인 행만 인용 가능합니다. REJECTED / SUPERSEDED / RAW 행을 인용하면 GATEKEEPER 가 반려합니다.
+
 본문 인용 표준:
 
 ```
 인라인:
-태국 외식업 사업체 수는 약 250,000 개입니다 (NSO Thailand, 2022, Tier A).
+태국 외식업 사업체 수는 약 250,000 개입니다 (NSO Thailand, 2022, Tier A, E045).
 
 각주 또는 참고 자료 섹션:
-[1] NSO Thailand. *Business Census 2022*. 2023-08-15. https://www.nso.go.th/...
+[1] NSO Thailand. *Business Census 2022*. 2023-08-15. https://www.nso.go.th/... (E045, Tier A)
 ```
+
+> **evidence ID 명시 규칙**: 모든 본문 인용 끝에 `(E001)` 형식으로 evidence-log ID 를 표기합니다. 복수 출처 cross-reference 시 `(E045+E046)` 형식. 이를 통해 보고서 → evidence-log.csv → 원시 출처로 한 번에 역추적할 수 있습니다.
+
+계산 결과 인용 (옵션 A/D 또는 방어 강도 High 시):
+
+```
+인라인:
+토스플레이스 F&B Payment 점유율은 약 25% 로 추정됩니다 (자체 추정, Tier E, C007).
+```
+
+> **calc_id 명시 규칙**: 자체 계산 결과는 `(C001)` 형식으로 calculation-log ID 를 표기합니다. CHECKER-A 가 재계산 검증한 calc_id 만 인용 가능합니다.
 
 ### 7. 인사이트와 활용 방안
 
@@ -236,6 +249,9 @@ Tier S). LMWN 이 POS 영역에서 40%+ 점유율로 우세하며, 진입 기회
 - [ ] (view spec 있다면) 그 형식이 본문에 반영
 - [ ] Confidence Low / Insufficient 영역이 단언되지 않음
 - [ ] 활용 방안이 청중에 맞춰 작성
+- [ ] **`evidence-log.csv` 에서 `status == VERIFIED` 인 행만 본문 인용** (REJECTED / SUPERSEDED / RAW 인용 시 GATEKEEPER 반려)
+- [ ] **모든 본문 인용에 evidence ID 명시** (예: `(E045)`, `(E045+E046)`) — 원시 데이터로 역추적 가능하게
+- [ ] **계산 결과 인용 시 calc_id 명시** (옵션 A/D 또는 방어 강도 High 시) — 산출 체인 역추적 가능하게
 
 ---
 

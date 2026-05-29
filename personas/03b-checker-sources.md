@@ -153,14 +153,33 @@ URL 이 너무 길면 단축 권장 (단, 도메인은 보존). 리포트 ID 가
 - [ ] 위키피디아·AI 답변이 직접 출처로 사용되지 않음
 - [ ] 라이선스 위반 없음
 - [ ] 자격증명 평문 노출 없음
+- [ ] **`evidence-log.csv` 에 RAW 행 0개** — 모든 행이 VERIFIED / REJECTED / SUPERSEDED 중 하나로 확정됨
+- [ ] **출처 검증 결과가 `evidence-log.csv` 의 status 와 checker_note 에 반영됨** (URL 깨짐 → REJECTED, Tier 강등 → 메모 기록)
 
 ---
 
 ## 산출물
 
-CHECKER-A 의 verified data log + 다음 칼럼 추가:
+CHECKER-B 의 1차 산출물은 **`evidence-log.csv` 의 status 최종 확정**입니다.
 
-| 추가 컬럼 | 내용 |
+### 1. evidence-log.csv 출처 검증 반영 (필수)
+
+CHECKER-A 가 status 를 부여한 행에 대해, 출처 관점의 검증을 추가합니다:
+
+| CHECKER-A status | CHECKER-B 처리 |
+|---|---|
+| **VERIFIED** (CHECKER-A 통과) | URL·인용 맥락·Tier 재확인 → 통과 시 VERIFIED 유지 / 실패 시 REJECTED 강등 + checker_note |
+| **REJECTED** (CHECKER-A 폐기) | 그대로 유지 (사유에 출처 관점 코멘트 추가 가능) |
+| **SUPERSEDED** | 그대로 유지 |
+| **RAW** (CHECKER-A 가 출처 검증 대기로 남긴 행) | 출처 검증 후 VERIFIED / REJECTED / SUPERSEDED 중 하나로 확정 |
+
+> **핸드오프 시 RAW 행은 0개여야 합니다.** RAW 가 남으면 INTEGRATOR 가 받지 않습니다.
+
+상세: `references/evidence-log-spec.md`
+
+### 2. evidence-log.csv 추가 메타 컬럼 (필요 시 별도 산출물 또는 inline note 로 기록)
+
+| 추가 컬럼 (또는 checker_note 내 기록) | 내용 |
 |---|---|
 | **URL Status** | OK / 404 / Paywall / Preview only |
 | **Primary?** | Yes / No (몇 hop 떨어졌는지) |
@@ -168,9 +187,13 @@ CHECKER-A 의 verified data log + 다음 칼럼 추가:
 | **인용 맥락 일치** | OK / 부분 / 불일치 |
 | **라이선스 노트** | "Internal use only" / "Public" 등 |
 
-별도로:
-- **Source issues list** — 폐기·강등·재조사 권고
-- **Final Tier 분포** — S=N, A=N, B=N, C=N, D=N, E=N (F 는 0이어야 함)
+### 3. 통합 산출물 요약
+
+| 산출물 | 내용 |
+|---|---|
+| **evidence-log.csv (최종 확정)** | RAW 행 0개. 모든 행에 VERIFIED / REJECTED / SUPERSEDED + checker_note |
+| **Source issues list** | 폐기·강등·재조사 권고 별도 정리 |
+| **Final Tier 분포** | S=N, A=N, B=N, C=N, D=N, E=N (F 는 0이어야 함) |
 
 ---
 
