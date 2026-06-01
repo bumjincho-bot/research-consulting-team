@@ -110,11 +110,12 @@ research-consulting-team/
 
 ## Applied In
 
-| Country | Version | Status | Evidence | Tables |
-|---|---|---|---|---|
-| 🇰🇷 KR | v1.4 | ✅ Complete | 73 entries | 93 |
-| 🇹🇼 TW | v2.7 | ✅ Complete | 101 entries | 25 |
-| 🇹🇭 TH | v1.0 | ✅ Complete | 170 entries (152 VERIFIED) | 44 |
+| Country | Version | Status | Evidence | Tables | Notes |
+|---|---|---|---|---|---|
+| 🇰🇷 KR | v1.5 | ✅ Complete | 99 entries (was 73 in v1.4) | 93+ | Wiki snapshot + Phase 2 retroactive Landscape Scan (K074-K099) |
+| 🇹🇼 TW | v2.8 | ✅ Complete | 101 entries (100 VERIFIED, 1 REJECTED) | 25 | Wiki snapshot header added |
+| 🇹🇭 TH | v1.1 | ✅ Complete | 170 entries (152 VERIFIED, 16 REJECTED, 2 SUPERSEDED) | 44 | Wiki snapshot header added |
+| 🌏 Integrated | v1.1 | ✅ Complete | **370 entries unified** | 104 | KR/TW/TH consolidated, Funnel/Function dual-axis, EN+KR bilingual |
 
 ## Security
 
