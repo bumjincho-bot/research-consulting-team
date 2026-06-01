@@ -43,7 +43,7 @@
 | **C (Player 컬럼 분리)** | 회사-서비스 매핑 표 작성 + 모든 Player Shares 표 두 컬럼 | `references/player-notation.md` |
 | **D (매출 Share 별도 표)** | 1차 지표 share 표 + 매출 share 표 **per vertical** + **calculation-log 필수** | `references/metrics-standard.md` |
 | **E (1차 지표 맞춤 표현)** | 솔루션별 시장 표준 용어 사용 + 보조 가맹점 수 병기 (해당 시) | `references/metrics-standard.md` |
-| **F (위키 backbone)** | 위키 정의 (Type A/B/C, F1-F6, C1/C2/C3) 적용 | (위키 직접 참조) |
+| **F (위키 backbone)** | 위키 정의 (Type A/B/C, FN1-FN6 Funnel, FC1-FC6 Function, C1+C2+C3) 적용. v1.8부터 Funnel/Function 이중축 분리. Wiki snapshot 의무 (`references/wiki-snapshot-policy.md`). | (위키 직접 참조 + snapshot 저장) |
 
 > **옵션이 ❌ 인 항목** → 해당 reference 파일 무시, 기존 단순 형식으로 작성.
 > **옵션 미지정 (SCOPER 핸드오프에 없음)** → 기존 v1.0 형식 (단일 분류·단일 산출·단일 Player 컬럼)으로 작성.

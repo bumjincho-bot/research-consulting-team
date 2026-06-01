@@ -113,8 +113,8 @@ research-consulting-team/
 | Country | Version | Status | Evidence | Tables |
 |---|---|---|---|---|
 | 🇰🇷 KR | v1.4 | ✅ Complete | 73 entries | 93 |
-| 🇹🇼 TW | v2.6 | ✅ Complete | 101 entries | 25 |
-| 🇹🇭 TH | v3.5 | 🟡 In Progress | 40 entries | — |
+| 🇹🇼 TW | v2.7 | ✅ Complete | 101 entries | 25 |
+| 🇹🇭 TH | v1.0 | ✅ Complete | 170 entries (152 VERIFIED) | 44 |
 
 ## Security
 
@@ -125,7 +125,16 @@ research-consulting-team/
 
 ## Changelog
 
-### v1.7 (2026-05-30)
+### v1.8 (2026-05-29) — Wiki v10 Alignment + Snapshot Policy (merged with v1.7)
+- **Wiki backbone snapshot policy** (`references/wiki-snapshot-policy.md` — new) — mandatory wiki fetch + hash + version recorded at SCOPER phase
+- **Funnel × Function dual-axis split** per Wiki Criteria Clarification v10 update (2026-05-26):
+  - Old "F1-F6 Function" single-axis → New **FN1-FN6 Funnel** (consumer journey) + **FC1-FC6 Function** (revenue category)
+  - `references/classification-framework.md` rewritten with v1.8 dual-axis + N:N mapping + migration guide
+  - `personas/01-scoper.md` and `personas/02-analyst.md` updated to reference Funnel/Function split + Wiki snapshot policy
+- **Function metric grading** — 실측 / 추정 / 산출 불가 trinary tag with formula and per-input source (Wiki v10 NEW)
+- **Drift reconciliation** — KR/TW/TH report cohort relabeled (F1-F6 → FN1-FN6 Funnel) without re-research; Integrated v1.1 published with drift analysis appendix
+
+### v1.7 (2026-05-30) — Multi-Session Protocol + Evidence-Log Alignment
 - Add `references/multi-session-protocol.md` — 3 session-split patterns (3 / 5-7 / 10+ sessions), bootstrap procedure, locked-items policy, CSV header pre-creation
 - `personas/00-orchestrator.md`: session-context check (new run vs. resumed run) added before SCOPER hand-off
 - SKILL.md: project-size guidance expanded with auto-apply conditions (segments ≥ 6, countries ≥ 3, High defensibility, etc.)
@@ -133,6 +142,7 @@ research-consulting-team/
   - CHECKER-A primary output is `evidence-log.csv` status update (RAW → VERIFIED / REJECTED / SUPERSEDED), recomputation mandatory under Option A/D or High defensibility
   - CHECKER-B finalizes evidence-log (zero RAW rows) and forces all-row status determination before INTEGRATOR hand-off
   - WRITER cites VERIFIED rows only with explicit evidence ID (E001) per body citation
+- TH 6-vertical SaaS report v1.0 complete (170 evidence entries, 44 tables, USD 537-843M total) and TW v2.6 → v2.7 (KR v1.4 format alignment) consolidated under this lineage
 
 ### v1.6 (2026-05-28)
 - Add `references/evidence-log-spec.md` — Option A (single file + status column)

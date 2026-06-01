@@ -284,6 +284,28 @@ Large 의 경우, ORCHESTRATOR 가 우선순위 세그먼트만 풀 깊이로 �
 
 ---
 
+---
+
+## Skill Version History
+
+| Version | Date | Changes |
+|---|---|---|
+| v1.5 | 2026-05-28 | Initial commit (39 files): 9-phase process, 5 country guides, dual sizing, evidence-log spec, classification framework |
+| v1.6 | 2026-05-28 | Added Market Landscape Scan (ANALYST Step 5) + Evidence Log Spec Option A (status column) |
+| v1.7 | 2026-05-30 | **Multi-session protocol** + CHECKER/WRITER evidence-log alignment (3 session-split patterns, RAW→VERIFIED chain enforcement) |
+| **v1.8** | **2026-05-29** | **Wiki v10 alignment**: Classification framework split (Funnel FN1-FN6 ≠ Function FC1-FC6); Wiki snapshot policy (mandatory); Function metric grading (실측/추정/산출 불가); KR/TW/TH report relabeling guide |
+
+### v1.8 Critical Changes (2026-05-29)
+
+After Wiki Criteria Clarification page (4186750919) was updated to v10 on 2026-05-26, this skill was reconciled:
+
+1. **Funnel vs Function axis split** — Old "F1-F6 Function" (single axis) → New "FN1-FN6 Funnel" (consumer journey) + "FC1-FC6 Function" (revenue category). See `references/classification-framework.md`.
+2. **Wiki snapshot policy** — Every research run MUST fetch wiki snapshot at SCOPER phase, record version + hash + last-updated date. See `references/wiki-snapshot-policy.md`.
+3. **Metric grading** — Each market-size value tagged 실측 / 추정 / 산출 불가 with formula and source.
+4. **Backwards-compat label translation**: Old "F1-F6" reports must clarify these are "FN1-FN6 Funnel" (consumer journey), and add separate FC1-FC6 mapping for revenue attribution.
+
+---
+
 ## 참고 — 두 원본 스킬과의 관계
 
 이 스킬은 두 원본 스킬을 합성·확장한 별도 산출물입니다. 원본은 변경하지 않습니다.

@@ -180,11 +180,11 @@ view_spec:
 | # | 옵션 | 설명 | 적용? | 참조 파일 |
 |---|---|---|---|---|
 | A | **이중 산출 (Dual Sizing)** | Bottom-up + Solution 합 두 방법으로 시장 규모 산정, ±5% 정합성 검증 | ☐ 적용 / ☐ 미적용 | `references/dual-sizing-methodology.md` |
-| B | **이중 분류 (Dual Classification)** | 1차 분류 (Solution Rows) + 보조 분류 (Function F1-F6 등) 병기 + 미채택 분류 부록 보존 | ☐ 적용 / ☐ 미적용 | `references/classification-framework.md` |
+| B | **이중 분류 (Dual Classification)** | Solution Rows (= FC1-FC6 Function 매핑) + FN1-FN6 Funnel 매트릭스 병기 + 미채택 분류 부록 보존. v1.8부터 Funnel/Function 이중축 분리 | ☐ 적용 / ☐ 미적용 | `references/classification-framework.md` |
 | C | **Player 표기 컬럼 분리** | 모든 Player Shares 표에서 회사명·서비스명 두 컬럼 분리 + 매핑 표준 작성 | ☐ 적용 / ☐ 미적용 | `references/player-notation.md` |
 | D | **매출 Share 표 별도 추가** | 1차 지표 share 표 외에 매출 기준 share 표를 별도로 추가 (per vertical) | ☐ 적용 / ☐ 미적용 | `references/metrics-standard.md` |
 | E | **1차 지표 솔루션별 맞춤 표현** | "가맹점 수" 일괄 적용 대신 솔루션별 시장 표준 용어 사용 + 보조 가맹점 수 병기 | ☐ 적용 / ☐ 미적용 | `references/metrics-standard.md` |
-| F | **위키 backbone 통합** | Workers-Hub 위키 Criteria Clarification backbone 정의 (Type A/B/C, F1-F6, C1/C2/C3) 적용 | ☐ 적용 / ☐ 미적용 | (위키 페이지 직접 참조) |
+| F | **위키 backbone 통합** | Workers-Hub 위키 Criteria Clarification backbone 정의 (Type A/B/C, FN1-FN6 Funnel, FC1-FC6 Function, C1+C2+C3) 적용. **Wiki snapshot 의무** (`references/wiki-snapshot-policy.md`) | ☐ 적용 / ☐ 미적용 | (위키 직접 참조 + snapshot 저장) |
 
 > **기본값**: 방어 강도 High → A~F 모두 적용 권장. Medium → A+C+E 권장. Low → 모두 미적용 가능.
 > **사용자가 추가 옵션을 제안하면** 이 메뉴에 G, H, ... 로 추가.
