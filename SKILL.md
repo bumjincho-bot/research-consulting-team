@@ -334,6 +334,19 @@ Large 의 경우, ORCHESTRATOR 가 우선순위 세그먼트만 풀 깊이로 �
 | v1.7 | 2026-05-30 | **Multi-session protocol** + CHECKER/WRITER evidence-log alignment (3 session-split patterns, RAW→VERIFIED chain enforcement) |
 | v1.8 | 2026-05-29 | **Wiki v10 alignment**: Classification framework split (Funnel FN1-FN6 ≠ Function FC1-FC6); Wiki snapshot policy (mandatory); Function metric grading (실측/추정/산출 불가); KR/TW/TH report relabeling guide |
 | **v2.0** | **2026-06-04** | **Domain-agnostic + interview-driven scoping**. SCOPER 가 사용자와 5 Phase 인터뷰로 분류·메트릭·방법론 도출. SaaS-편향 references → `_legacy-saas/`. 도메인 어댑터 시도 → `_archived-domain-adapter-attempt/`. 새 source of truth: `references/interview-guide/`. ANALYST·SCOPER persona 전면 리팩터. |
+| **v2.1** | **2026-06-04** | **ANALYST execution discipline**: 1 hour zero-evidence run 사후 패치. `personas/02-analyst.md` 에 R1 Time Budget (per source 2-3min, per metric 15min, per ANALYST 25min hard cap with 5min safety margin before 30min background timeout) + R2 Incremental Output (첫 source 즉시 row append, 매 5 min checkpoint flush, 25 min mandatory commit) + R3 Fail-Fast Routing (User-Agent 변경 1 회만, retry 금지, 다음 source 즉시 routing) + R4 Binary/PDF Policy (HTML 우회 우선, PDF 3 min cap, 초과 시 즉시 포기) + R5 ORCHESTRATOR 보고 의무 추가. v2.0 backup at `personas/02-analyst.v2.bak.md`. |
+
+### v2.1 Critical Changes (2026-06-04)
+
+After applying v2.0 to the LINE TW·TH digital ad project on 2026-06-04, three parallel ANALYST librarian background tasks all returned **0 evidence rows** after a cumulative 1 hour runtime — one timed out before its first thinking step, one stuck on DAAT PDF binary parsing for 4+ minutes then idle, and one hit the 30 min inactivity timeout while retrying paywalled industry research sources. v2.0 ANALYST persona had no time budget, no incremental output discipline, no fail-fast routing rule, and no binary handling policy — so the LLM tried to gather everything before writing a single row, and the background runtime killed the task before any output landed. The patch:
+
+1. **R1 Time Budget** — explicit per-attempt (2 min HTTP, 3 min PDF), per-metric (15 min for ≥3 source attempts), and per-ANALYST (25 min hard cap with 5 min safety margin before the 30 min background timeout) limits.
+2. **R2 Incremental Output** — first row must commit on first successful source; every 5 min a checkpoint flush; 25 min mandatory commit even if partial. Replaces the v2.0 implicit "gather then write" pattern.
+3. **R3 Fail-Fast Routing** — same source retry capped at 1 (User-Agent variation only); no Wayback re-runs; immediate routing to next source candidate on 4xx/5xx, robot block, login wall, paywall, or timeout.
+4. **R4 Binary / PDF Policy** — HTML / abstract / press-release alternatives tried before PDF; PDF parsing capped at 3 min; OCR forbidden; ZIP/XLS limited to single core file under R1 budget.
+5. **R5 ORCHESTRATOR Reporting** — mandatory commit message at 25 min or task end with rows produced, metrics covered, data-unavailable list, and next-cycle recommendation. Feeds into ORCHESTRATOR Quality Gate.
+
+Effect: even a degenerate run now produces ≥1 row instead of 0; ORCHESTRATOR can decide to spawn a second ANALYST cycle on uncovered metrics rather than restart from scratch.
 
 ### v2.0 Critical Changes (2026-06-04)
 
