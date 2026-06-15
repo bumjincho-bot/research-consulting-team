@@ -26,9 +26,34 @@ user_invocable: true
 # Research Consulting Team — Domain-Agnostic Consulting-Grade Research
 
 > **Distribution**: 팀 내부 전용. Git 커밋 시 `secrets/`, `.env`, `learning-log/runs/` 제외 필수. 외부 배포·오픈소스 공개 금지.
-> **Version**: v2.0 (2026-06-04 — interview-driven scoping)
+> **Version**: v2.2 (2026-06-15 — Sisyphus-enforced role contracts)
 
 이 스킬은 BCG·McKinsey 같은 컨설팅 펌과 학술 리서치 방법론의 운영 방식을 본떠, **9개 역할**이 시퀀셜·병렬로 협업하여 신뢰도 높고 방어 가능한 리서치를 만들어냅니다. **v2.0 부터 도메인·산업 가정 없이** 사용자와 SCOPER 인터뷰를 통해 분류·메트릭·방법론을 공동 도출합니다.
+
+---
+
+## Skill-Defined Role Contracts (Sisyphus-Enforced)
+
+이 skill 은 v2.2 부터 "skill orchestrator as contract" 구조를 사용합니다. Sisyphus 는 runtime orchestrator 로 남고, skill 은 sub-agent 가 지켜야 할 role contract, handoff schema, interaction protocol, quality gate 를 제공합니다.
+
+### Required Contract Files
+
+Sisyphus 는 이 skill 로 sub-agent 를 호출하기 전에 아래 파일을 먼저 읽고 delegation prompt 에 반영합니다.
+
+| File | Purpose |
+|---|---|
+| `references/role-contracts/SCHEMA.md` | 모든 persona 출력이 끝에 붙여야 하는 `SISYPHUS_HANDOFF_ENVELOPE` 와 `GATE_RESULT:` token 정의 |
+| `references/role-contracts/INTERACTION-PROTOCOL.md` | Sisyphus -> sub-agent -> gate check -> repair/rollback loop 정의 |
+| `references/role-contracts/GATE-CHECKLIST-TEMPLATE.md` | persona별 `INPUT_*`, `OUTPUT_*`, `GATE_*`, repair trigger 작성 규칙 |
+
+### Enforcement Rule
+
+- Any sub-agent invoked under this skill MUST follow the target persona file and end its response with the envelope defined in `SCHEMA.md`.
+- Sisyphus MUST verify exactly one `GATE_RESULT:` token before advancing.
+- `GATE_RESULT: PASS` advances to the next persona.
+- `GATE_RESULT: FAIL` or `GATE_RESULT: PARTIAL` triggers repair, rollback, stop, or a user question according to `INTERACTION-PROTOCOL.md`.
+- Sisyphus MUST NOT silently patch failed persona outputs. Failed outputs return to the owning persona.
+
 
 ---
 
@@ -178,7 +203,7 @@ user_invocable: true
 | `policies/credentials-policy.md` | ENV 만 참조, 평문 노출 금지, 마스킹 규칙 |
 | `policies/paid-source-access.md` | 유료 소스 합법·안전 접근 규칙, 라이선스 |
 | `policies/env-loading.md` | `.env` 로딩 방법, OS별 가이드 |
-| `secrets/README.md` | 자격증명 보관소 사용법 (이 폴더는 git 차단) |
+| `policies/secrets-storage.md` | 자격증명 보관소 사용법 (`secrets/` 내부 문서 금지) |
 | `.env.example` | 자격증명 템플릿 (실제 값은 `secrets/.env` 에) |
 
 **핵심 규칙 (위반 시 즉시 사고)**:
@@ -309,8 +334,8 @@ Large 의 경우, ORCHESTRATOR 가 우선순위 세그먼트만 풀 깊이로 �
 5. SCOPER (Phase D): 스타일 (S1 Issue Decomposition) + 방법론 → "Phase D 승인"
 6. SCOPER (Phase E): MD/HTML/PDF + Multi-Session 5–7 → "Phase E 승인"
 7. SCOPER: 통합 Research Brief 1쪽 → 최종 승인
-8. ANALYST ×3: Brief 의 Segment Map 기반 병렬 조사 (Brief 의 분류·메트릭 그대로)
-9. CHECKER A → B 검증
+8. ANALYST ×3: Brief 의 Segment Map 기반 병렬 조사 (Brief 의 분류·메트릭 그대로) + `GATE_RESULT:` envelope 제출
+9. CHECKER A → B 검증 + 각 단계 `SISYPHUS_HANDOFF_ENVELOPE` 확인
 10. INTEGRATOR: FY-CY 변환·통화 환산·confidence rating
 11. ARCHITECT: 시장 구조 + so-what
 12. CRITIC: weak-point 랭킹 (Brief Phase D 스타일별 의무 충족 여부 점검)
@@ -334,6 +359,7 @@ Large 의 경우, ORCHESTRATOR 가 우선순위 세그먼트만 풀 깊이로 �
 | v1.7 | 2026-05-30 | **Multi-session protocol** + CHECKER/WRITER evidence-log alignment (3 session-split patterns, RAW→VERIFIED chain enforcement) |
 | v1.8 | 2026-05-29 | **Wiki v10 alignment**: Classification framework split (Funnel FN1-FN6 ≠ Function FC1-FC6); Wiki snapshot policy (mandatory); Function metric grading (실측/추정/산출 불가); KR/TW/TH report relabeling guide |
 | **v2.0** | **2026-06-04** | **Domain-agnostic + interview-driven scoping**. SCOPER 가 사용자와 5 Phase 인터뷰로 분류·메트릭·방법론 도출. SaaS-편향 references → `_legacy-saas/`. 도메인 어댑터 시도 → `_archived-domain-adapter-attempt/`. 새 source of truth: `references/interview-guide/`. ANALYST·SCOPER persona 전면 리팩터. |
+| **v2.2** | **2026-06-15** | **Sisyphus-enforced role contracts**: `references/role-contracts/` 에 SCHEMA, INTERACTION-PROTOCOL, GATE-CHECKLIST-TEMPLATE 추가. 모든 persona 에 `Machine Contract (Sisyphus)` 또는 delegation contract 를 붙여 `INPUT_*`, `OUTPUT_*`, `GATE_*`, `GATE_RESULT:` token, repair trigger 를 명시. OpenCode/Sisyphus 는 runtime orchestration 을 유지하고 skill 은 workflow contract owner 로 동작. |
 | **v2.1** | **2026-06-04** | **ANALYST execution discipline**: 1 hour zero-evidence run 사후 패치. `personas/02-analyst.md` 에 R1 Time Budget (per source 2-3min, per metric 15min, per ANALYST 25min hard cap with 5min safety margin before 30min background timeout) + R2 Incremental Output (첫 source 즉시 row append, 매 5 min checkpoint flush, 25 min mandatory commit) + R3 Fail-Fast Routing (User-Agent 변경 1 회만, retry 금지, 다음 source 즉시 routing) + R4 Binary/PDF Policy (HTML 우회 우선, PDF 3 min cap, 초과 시 즉시 포기) + R5 ORCHESTRATOR 보고 의무 추가. v2.0 backup at `personas/02-analyst.v2.bak.md`. |
 
 ### v2.1 Critical Changes (2026-06-04)
