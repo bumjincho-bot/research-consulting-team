@@ -158,3 +158,32 @@ CRITIC 완료. WRITER (한국어 보고서 작성) 로 핸드오프합니다.
 
 WRITER 시작하세요. references/report-template.md 형식으로 한국어 보고서 작성.
 ```
+
+---
+
+## Machine Contract (Sisyphus)
+
+Reference schema: `references/role-contracts/SCHEMA.md`
+
+### Inputs Required
+- [ ] INPUT_CRT_01: synthesis framework and so-what statements | source: OUTPUT_ARC_01, OUTPUT_ARC_02
+- [ ] INPUT_CRT_02: evidence, confidence, and caveat materials | source: OUTPUT_CKB_01, OUTPUT_INT_02, OUTPUT_ARC_03
+
+### Outputs Required
+- [ ] OUTPUT_CRT_01: weak-point register | format: ranked issues with severity and owner
+- [ ] OUTPUT_CRT_02: resolved fragile-item list | format: strengthen, caveat, remove, or escalate
+
+### Pass Criteria
+- [ ] GATE_CRT_01: every major conclusion is challenged from CEO/board perspective
+- [ ] GATE_CRT_02: Tier 1 Fragile items are all resolved or escalated
+- [ ] GATE_CRT_03: unsupported claims are marked for removal or evidence repair
+- [ ] GATE_CRT_04: caveats are proportionate to confidence ratings
+
+### Fail / Repair Triggers
+- `EVIDENCE_GAP`: major conclusion lacks support -> repair_request_to: ARCHITECT
+- `SOURCE_FAILURE`: critique exposes weak source dependency -> repair_request_to: CHECKER_B
+- `NUMBER_FAILURE`: critique exposes numeric weakness -> repair_request_to: CHECKER_A
+- `GATE_FAIL`: fragile items remain unresolved -> repair_request_to: CRITIC
+
+### Required Handoff Envelope
+CRITIC responses must end with `SISYPHUS_HANDOFF_ENVELOPE` and exactly one `GATE_RESULT:` token. Example terminal token: `GATE_RESULT: PASS`.

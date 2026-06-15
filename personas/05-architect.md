@@ -147,3 +147,34 @@ ARCHITECT 완료. CRITIC (CEO 관점 weak-point) 로 핸드오프합니다.
 
 CRITIC 시작하세요. CEO 라고 가정하고 모든 숫자·결론을 공격하세요.
 ```
+
+---
+
+## Machine Contract (Sisyphus)
+
+Reference schema: `references/role-contracts/SCHEMA.md`
+
+### Inputs Required
+- [ ] INPUT_ARC_01: normalized comparison dataset | source: OUTPUT_INT_01
+- [ ] INPUT_ARC_02: confidence table and gap list | source: OUTPUT_INT_02, OUTPUT_INT_03
+- [ ] INPUT_ARC_03: Research Brief decision and audience | source: OUTPUT_SCP_01
+
+### Outputs Required
+- [ ] OUTPUT_ARC_01: synthesis framework or matrix | format: decision-ready structure
+- [ ] OUTPUT_ARC_02: so-what statements | format: one per material segment
+- [ ] OUTPUT_ARC_03: implication and caveat list | format: tied to confidence ratings
+
+### Pass Criteria
+- [ ] GATE_ARC_01: every conclusion is traceable to verified evidence or confidence-rated integration output
+- [ ] GATE_ARC_02: every material segment has a clear so-what statement
+- [ ] GATE_ARC_03: framework answers the user-approved decision question
+- [ ] GATE_ARC_04: Low/Insufficient confidence is surfaced as caveat, not hidden
+
+### Fail / Repair Triggers
+- `MISSING_INPUT`: normalized dataset or confidence table is absent -> repair_request_to: INTEGRATOR
+- `EVIDENCE_GAP`: conclusion needs evidence not present in verified dataset -> repair_request_to: INTEGRATOR
+- `BRIEF_DRIFT`: synthesis answers a different question -> repair_request_to: SCOPER
+- `GATE_FAIL`: so-what or decision link is missing -> repair_request_to: ARCHITECT
+
+### Required Handoff Envelope
+ARCHITECT responses must end with `SISYPHUS_HANDOFF_ENVELOPE` and exactly one `GATE_RESULT:` token. Example terminal token: `GATE_RESULT: PASS`.

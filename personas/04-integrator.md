@@ -257,3 +257,35 @@ INTEGRATOR 완료. ARCHITECT (synthesis + so-what) 로 핸드오프합니다.
 
 ARCHITECT 시작하세요. 정렬된 데이터로 합성·프레임워크·"so what" 을 만드세요.
 ```
+
+---
+
+## Machine Contract (Sisyphus)
+
+Reference schema: `references/role-contracts/SCHEMA.md`
+
+### Inputs Required
+- [ ] INPUT_INT_01: source-verified evidence log | source: OUTPUT_CKB_01
+- [ ] INPUT_INT_02: Research Brief definitions and comparison rules | source: OUTPUT_SCP_01
+- [ ] INPUT_INT_03: confidence and tier mapping references | source: `references/confidence-rating.md`, `references/tier-mapping.md`
+
+### Outputs Required
+- [ ] OUTPUT_INT_01: normalized comparison dataset | format: aligned currency, time basis, definition, and segment dimensions
+- [ ] OUTPUT_INT_02: confidence rating table | format: High/Medium/Low/Insufficient per segment/country
+- [ ] OUTPUT_INT_03: gap and caveat list | format: Insufficient items with next actions
+
+### Pass Criteria
+- [ ] GATE_INT_01: countries/segments use comparable definitions or explicit caveats
+- [ ] GATE_INT_02: currency and time basis are normalized according to Research Brief
+- [ ] GATE_INT_03: source-tier equivalence is checked with tier mapping
+- [ ] GATE_INT_04: every segment/country receives confidence rating
+- [ ] GATE_INT_05: gaps are labelled Insufficient instead of silently estimated
+
+### Fail / Repair Triggers
+- `MISSING_INPUT`: verified evidence or comparison rules are missing -> repair_request_to: CHECKER_B
+- `NUMBER_FAILURE`: normalization exposes numeric inconsistency -> repair_request_to: CHECKER_A
+- `BRIEF_DRIFT`: comparison requires changed scope or metric -> repair_request_to: SCOPER
+- `GATE_FAIL`: confidence rating cannot be assigned -> repair_request_to: INTEGRATOR
+
+### Required Handoff Envelope
+INTEGRATOR responses must end with `SISYPHUS_HANDOFF_ENVELOPE` and exactly one `GATE_RESULT:` token. Example terminal token: `GATE_RESULT: PASS`.
