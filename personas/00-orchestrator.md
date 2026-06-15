@@ -143,3 +143,34 @@
 "ORCHESTRATOR → SCOPER. 사용자 요청: [원문]. 추정되는 정보 격차: [있다면].
 과거 learning-log 참조: [있다면 path]. 시작하세요."
 ```
+
+---
+
+## Sisyphus Delegation Contract
+
+Sisyphus is the runtime orchestrator. This ORCHESTRATOR persona is the skill-level contract owner. Before delegating any phase, Sisyphus must read `references/role-contracts/SCHEMA.md`, `references/role-contracts/INTERACTION-PROTOCOL.md`, and the target persona file.
+
+### Inputs Required
+- [ ] INPUT_ORC_01: original user request or approved continuation context | source: user
+- [ ] INPUT_ORC_02: active Research Brief for phases 2+ | source: OUTPUT_SCP_01
+- [ ] INPUT_ORC_03: prior phase handoff envelope | source: previous persona `SISYPHUS_HANDOFF_ENVELOPE`
+
+### Outputs Required
+- [ ] OUTPUT_ORC_01: next persona delegation prompt | format: includes ROLE CONTRACT, INPUTS, TASK, EXPECTED OUTCOME, MUST NOT DO, HANDOFF
+- [ ] OUTPUT_ORC_02: phase transition decision | format: advance, repair, rollback, stop, or ask user
+
+### Pass Criteria
+- [ ] GATE_ORC_01: target persona file and schema are included or explicitly referenced in the delegation prompt
+- [ ] GATE_ORC_02: delegation prompt includes required inputs and forbids scope drift from the Research Brief
+- [ ] GATE_ORC_03: returned envelope has exactly one `GATE_RESULT:` token
+- [ ] GATE_ORC_04: `GATE_RESULT: PASS` advances only when all gate failures are `none`
+- [ ] GATE_ORC_05: `GATE_RESULT: FAIL` or `PARTIAL` triggers same-persona repair, upstream rollback, stop, or user clarification
+
+### Fail / Repair Triggers
+- `MISSING_INPUT`: required brief, prior envelope, or target persona file is missing -> repair_request_to: ORCHESTRATOR
+- `BRIEF_DRIFT`: downstream work changes approved scope, metric, method, or segment -> repair_request_to: SCOPER
+- `SECURITY_VIOLATION`: credential or license risk appears -> repair_request_to: USER
+- `GATE_FAIL`: sub-agent omits envelope or gate token -> repair_request_to: same persona
+
+### Required Handoff Envelope
+ORCHESTRATOR handoffs must follow `references/role-contracts/SCHEMA.md` and end with exactly one `GATE_RESULT:` token. Example terminal token: `GATE_RESULT: PASS`.

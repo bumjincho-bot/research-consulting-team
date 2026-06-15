@@ -367,3 +367,37 @@ CHECKER-A: 위 evidence-log 의 모든 RAW 행에 대해 smell test 수행 + Bri
 ---
 
 *v2.1 ANALYST 의 핵심 원칙: Brief 가 모든 결정의 근거. 도메인 가정 금지. 사용자 인터뷰 산출물을 신성하게 다룸. **그리고 evidence 는 모은 즉시 commit 한다 — 0 건 산출은 100 건 부분 산출보다 나쁘다**.*
+
+---
+
+## Machine Contract (Sisyphus)
+
+Reference schema: `references/role-contracts/SCHEMA.md`
+
+### Inputs Required
+- [ ] INPUT_ANL_01: approved Research Brief | source: OUTPUT_SCP_01
+- [ ] INPUT_ANL_02: methodology, segment map, and Phase D ANALYST obligations | source: OUTPUT_SCP_02
+- [ ] INPUT_ANL_03: country/source guides and evidence-log spec | source: references named in persona
+
+### Outputs Required
+- [ ] OUTPUT_ANL_01: evidence log rows | format: `references/evidence-log-spec.md` with source tier tags
+- [ ] OUTPUT_ANL_02: calculation log when formulas or estimates are used | format: traceable formula notes
+- [ ] OUTPUT_ANL_03: data-unavailable list and next-cycle recommendation | format: mandatory commit report
+
+### Pass Criteria
+- [ ] GATE_ANL_01: Brief Phase A-D required fields are present before research starts
+- [ ] GATE_ANL_02: every collected row maps to approved segment, metric, unit, date, and tier threshold
+- [ ] GATE_ANL_R1: time budget rules R1 are followed
+- [ ] GATE_ANL_R2: incremental output rules R2 are followed; no gather-then-write behavior
+- [ ] GATE_ANL_R3: fail-fast routing rules R3 are followed
+- [ ] GATE_ANL_R4: binary/PDF policy R4 is followed
+- [ ] GATE_ANL_R5: ORCHESTRATOR mandatory report R5 is emitted
+
+### Fail / Repair Triggers
+- `MISSING_INPUT`: Research Brief is incomplete -> repair_request_to: SCOPER
+- `BRIEF_DRIFT`: ANALYST changed classification, metric, or method without approval -> repair_request_to: SCOPER
+- `EVIDENCE_GAP`: required attempts completed but data remains unavailable -> repair_request_to: ORCHESTRATOR
+- `SOURCE_FAILURE`: source access or provenance is insufficient -> repair_request_to: ANALYST
+
+### Required Handoff Envelope
+ANALYST responses must end with `SISYPHUS_HANDOFF_ENVELOPE` and exactly one `GATE_RESULT:` token. Example terminal token: `GATE_RESULT: PASS`.

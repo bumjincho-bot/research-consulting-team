@@ -227,3 +227,34 @@ ANALYST 시작하세요. 분류·메트릭은 위 brief 의 Phase B·C 잠금을
 ```
 
 위 체크리스트가 모두 ✅ 일 때만 ANALYST 핸드오프.
+
+---
+
+## Machine Contract (Sisyphus)
+
+Reference schema: `references/role-contracts/SCHEMA.md`
+
+### Inputs Required
+- [ ] INPUT_SCP_01: user research request and intended decision | source: INPUT_ORC_01
+- [ ] INPUT_SCP_02: prior learning-log context if available | source: OUTPUT_ORC_02
+
+### Outputs Required
+- [ ] OUTPUT_SCP_01: approved Research Brief | format: Phase A-E locked brief with user approval
+- [ ] OUTPUT_SCP_02: methodology and segment map | format: Phase B-D artifacts referenced by ANALYST
+- [ ] OUTPUT_SCP_03: acceptance criteria and deliverable spec | format: Phase E success criteria
+
+### Pass Criteria
+- [ ] GATE_SCP_01: Phase A objective, decision, audience, and defensibility are approved by user
+- [ ] GATE_SCP_02: Phase B scope, units, MECE questions, and segment map are approved by user
+- [ ] GATE_SCP_03: Phase C metrics, units, dates, currency, cross-check, and tier threshold are approved by user
+- [ ] GATE_SCP_04: Phase D research style, method, validation approach, and ANALYST obligations are approved by user
+- [ ] GATE_SCP_05: Phase E deliverable, format, timeline, and acceptance criteria are approved by user
+- [ ] GATE_SCP_06: no ANALYST work starts before OUTPUT_SCP_01 is approved
+
+### Fail / Repair Triggers
+- `MISSING_INPUT`: user objective or decision context is unclear -> repair_request_to: USER
+- `BRIEF_DRIFT`: later phase needs scope, metric, or method change -> repair_request_to: SCOPER
+- `GATE_FAIL`: any Phase A-E approval is missing -> repair_request_to: SCOPER
+
+### Required Handoff Envelope
+SCOPER responses must end with `SISYPHUS_HANDOFF_ENVELOPE` and exactly one `GATE_RESULT:` token. Example terminal token: `GATE_RESULT: PASS`.
