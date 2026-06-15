@@ -1,17 +1,16 @@
-# secrets/ — 자격증명 보관소
+# Secrets Storage Policy
 
-> ⚠️ **이 폴더는 Git 에 절대 커밋되지 않습니다.**
-> 루트 `.gitignore` 와 `secrets/.gitignore` 가 이중으로 차단합니다.
+> `secrets/` contains only local credential files and is excluded from publish artifacts. Do not place documentation inside `secrets/`; keep guidance in this policy file.
 
 ---
 
-## 무엇을 두는가
+## What Goes In `secrets/`
 
 - `.env` — 유료 사이트 ID/PW/API key 실제 값 (`/.env.example` 형식)
 - `*.key`, `*.pem`, `*.json` — 인증서, 서비스 계정 키 (있을 경우)
 - 그 외 자격증명 관련 파일
 
-## 무엇을 두지 않는가
+## What Must Not Go In `secrets/`
 
 - 보고서 출력물
 - 리서치 데이터
@@ -22,7 +21,7 @@
 
 ---
 
-## 신규 멤버 온보딩
+## New Member Setup
 
 1. **이 스킬 폴더 통째로 받기** (zip / 팀 클라우드 드라이브 / 직접 전달)
 2. 루트에서:
@@ -44,7 +43,7 @@
 
 ---
 
-## 자격증명 로테이션 일정
+## Credential Rotation Schedule
 
 | 항목 | 주기 | 책임자 |
 |---|---|---|
@@ -55,7 +54,7 @@
 
 ---
 
-## 사고 대응 절차 (자격증명 유출 의심)
+## Incident Response
 
 1. **즉시** 해당 사이트 로그인 → 비밀번호 변경 + API key 폐기·재발급
 2. 활성 세션 전부 종료 (가능한 경우)
@@ -66,7 +65,7 @@
 
 ---
 
-## 절대 금지
+## Forbidden
 
 - ❌ `secrets/.env` 또는 그 값을 Slack/Notion/이메일에 평문 첨부
 - ❌ AI 어시스턴트 프롬프트에 자격증명 직접 입력 (도구가 ENV 에서 읽도록)
@@ -76,7 +75,7 @@
 
 ---
 
-## 폴더 통째 공유 시 체크리스트
+## Sharing Checklist
 
 스킬 폴더를 새 멤버에게 전달하기 전에:
 

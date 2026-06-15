@@ -62,8 +62,8 @@ Evidence log 컬럼 예시:
 ## 마스킹 규칙
 
 ```
-원본: STATISTA_API_KEY=sk-1234567890abcdefghij
-마스킹: sk-12***...***ghij      (앞 5자 + *** + ... + *** + 끝 4자)
+원본: STATISTA_API_KEY=<API_KEY_VALUE>
+마스킹: <앞 5자>***...***<끝 4자>      (앞 5자 + *** + ... + *** + 끝 4자)
 
 원본: 비밀번호=MyP@ssw0rd!2026
 마스킹: 절대 출력 금지 (마스킹조차 하지 않음 — 비밀번호는 어떤 형태로도 출력하지 않음)
@@ -77,7 +77,7 @@ API key 는 마스킹해서 디버그 가능, 비밀번호는 마스킹해도 �
 
 - 실패한 시도·성공한 검색 패턴은 기록 OK
 - "STATISTA_API_KEY 로 인증 후 Report 12345 조회 성공" 식 표기 OK
-- "STATISTA_API_KEY=sk-abc123 으로 인증" 식 절대 금지
+- "STATISTA_API_KEY=<API_KEY_VALUE> 로 인증" 식 절대 금지
 
 learning-log/runs/ 는 .gitignore 로 차단되지만, 그 안에서도 평문 자격증명은 쓰지 않습니다 (PC 분실·백업 유출 등 다중 위험 대비).
 
