@@ -190,3 +190,34 @@ GATEKEEPER 완료. PACKAGER (산출물 패키징) 로 핸드오프합니다.
 
 PACKAGER 시작하세요. evidence log, methodology page, assumptions, learning-log 까지.
 ```
+
+---
+
+## Machine Contract (Sisyphus)
+
+Reference schema: `references/role-contracts/SCHEMA.md`
+
+### Inputs Required
+- [ ] INPUT_GKP_01: draft report and citation map | source: OUTPUT_WRT_01, OUTPUT_WRT_02
+- [ ] INPUT_GKP_02: Research Brief acceptance criteria | source: OUTPUT_SCP_03
+- [ ] INPUT_GKP_03: evidence and weak-point materials for spot checks | source: OUTPUT_CKB_01, OUTPUT_CRT_01
+
+### Outputs Required
+- [ ] OUTPUT_GKP_01: gatekeeper-reviewed report | format: approved draft or repair-marked draft
+- [ ] OUTPUT_GKP_02: final quality issue list | format: none or issue list with repair owner
+
+### Pass Criteria
+- [ ] GATE_GKP_01: grammar, spacing, sentence agreement, and terminology are acceptable
+- [ ] GATE_GKP_02: report logic follows the approved brief and does not skip reasoning links
+- [ ] GATE_GKP_03: citations and evidence references remain consistent after editing
+- [ ] GATE_GKP_04: no new unsupported claim is introduced during polishing
+- [ ] GATE_GKP_05: all acceptance criteria from Phase E are checked
+
+### Fail / Repair Triggers
+- `FORMAT_FAILURE`: report or language quality fails final review -> repair_request_to: WRITER
+- `EVIDENCE_GAP`: edited report contains unsupported conclusion -> repair_request_to: WRITER
+- `SOURCE_FAILURE`: citation inconsistency appears -> repair_request_to: CHECKER_B
+- `GATE_FAIL`: final review cannot approve -> repair_request_to: GATEKEEPER
+
+### Required Handoff Envelope
+GATEKEEPER responses must end with `SISYPHUS_HANDOFF_ENVELOPE` and exactly one `GATE_RESULT:` token. Example terminal token: `GATE_RESULT: PASS`.

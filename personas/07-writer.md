@@ -286,3 +286,34 @@ WRITER 완료. GATEKEEPER (맞춤법·문장·논리) 로 핸드오프합니다.
 
 GATEKEEPER 시작하세요. 마지막 게이트.
 ```
+
+---
+
+## Machine Contract (Sisyphus)
+
+Reference schema: `references/role-contracts/SCHEMA.md`
+
+### Inputs Required
+- [ ] INPUT_WRT_01: synthesis framework, so-what statements, and caveats | source: OUTPUT_ARC_01, OUTPUT_ARC_02, OUTPUT_ARC_03
+- [ ] INPUT_WRT_02: weak-point register and fragile-item decisions | source: OUTPUT_CRT_01, OUTPUT_CRT_02
+- [ ] INPUT_WRT_03: report template and view spec if any | source: `references/report-template.md`, `references/view-spec.md`
+
+### Outputs Required
+- [ ] OUTPUT_WRT_01: draft report | format: user-approved language and deliverable structure
+- [ ] OUTPUT_WRT_02: citation map | format: every data claim tied to evidence/calculation ID
+
+### Pass Criteria
+- [ ] GATE_WRT_01: report follows the approved template, view spec, and audience level
+- [ ] GATE_WRT_02: every data claim cites verified evidence or calculation ID
+- [ ] GATE_WRT_INV_01: only VERIFIED or approved Insufficient rows are cited
+- [ ] GATE_WRT_INV_02: every citation has an evidence/calculation identifier such as E### or C### when available
+- [ ] GATE_WRT_03: fragile items are strengthened, caveated, removed, or escalated according to CRITIC output
+
+### Fail / Repair Triggers
+- `FORMAT_FAILURE`: report structure does not match approved deliverable -> repair_request_to: WRITER
+- `EVIDENCE_GAP`: text introduces unsupported claim -> repair_request_to: WRITER
+- `SOURCE_FAILURE`: citation cannot be traced -> repair_request_to: CHECKER_B
+- `GATE_FAIL`: draft omits required caveats or fragile-item handling -> repair_request_to: WRITER
+
+### Required Handoff Envelope
+WRITER responses must end with `SISYPHUS_HANDOFF_ENVELOPE` and exactly one `GATE_RESULT:` token. Example terminal token: `GATE_RESULT: PASS`.

@@ -228,3 +228,36 @@ PACKAGER 의 마지막 메시지:
 
 검토하시고 의견 주시면 반영하겠습니다.
 ```
+
+---
+
+## Machine Contract (Sisyphus)
+
+Reference schema: `references/role-contracts/SCHEMA.md`
+
+### Inputs Required
+- [ ] INPUT_PKG_01: gatekeeper-approved report | source: OUTPUT_GKP_01
+- [ ] INPUT_PKG_02: evidence log, methodology, assumptions, confidence ratings, weak points | source: prior phase outputs
+- [ ] INPUT_PKG_03: learning-log policy and security policy | source: `learning-log/README.md`, `policies/credentials-policy.md`
+
+### Outputs Required
+- [ ] OUTPUT_PKG_01: final delivery package | format: report, evidence log, methodology page, assumptions, confidence ratings, weak points
+- [ ] OUTPUT_PKG_02: learning-log entry | format: safe summary without secrets
+- [ ] OUTPUT_PKG_03: final user handoff summary | format: concise delivery note
+
+### Pass Criteria
+- [ ] GATE_PKG_01: main report is included and approved by GATEKEEPER
+- [ ] GATE_PKG_02: evidence log is included and all numeric/source claims are traceable
+- [ ] GATE_PKG_03: methodology page includes reproducible formulas, assumptions, exchange rates, and dates
+- [ ] GATE_PKG_04: assumptions-to-validate and confidence ratings are included
+- [ ] GATE_PKG_05: weak points list is included or explicitly marked none
+- [ ] GATE_PKG_06: learning-log entry contains no credentials or forbidden source content
+
+### Fail / Repair Triggers
+- `MISSING_INPUT`: approved report or required package artifact is absent -> repair_request_to: producing persona
+- `SECURITY_VIOLATION`: package or learning log exposes secrets/license-restricted content -> repair_request_to: USER
+- `FORMAT_FAILURE`: final package misses requested deliverable format -> repair_request_to: PACKAGER
+- `GATE_FAIL`: traceability or package completeness fails -> repair_request_to: PACKAGER
+
+### Required Handoff Envelope
+PACKAGER responses must end with `SISYPHUS_HANDOFF_ENVELOPE` and exactly one `GATE_RESULT:` token. Example terminal token: `GATE_RESULT: PASS`.
