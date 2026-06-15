@@ -221,3 +221,33 @@ CHECKER-B 완료. INTEGRATOR (국가 정렬·갭 보완·confidence 확정) 로 
 
 INTEGRATOR 시작하세요. 국가별 차이를 공통 기준으로 정렬하고 confidence 를 확정하세요.
 ```
+
+---
+
+## Machine Contract (Sisyphus)
+
+Reference schema: `references/role-contracts/SCHEMA.md`
+
+### Inputs Required
+- [ ] INPUT_CKB_01: number-checked evidence log | source: OUTPUT_CKA_01
+- [ ] INPUT_CKB_02: source tier definitions | source: `references/source-tiers.md`
+- [ ] INPUT_CKB_03: paid-source and credential policy when relevant | source: policies/*.md
+
+### Outputs Required
+- [ ] OUTPUT_CKB_01: source-verified evidence log | format: only VERIFIED or explicitly Insufficient rows advanced
+- [ ] OUTPUT_CKB_02: citation repair list | format: failed source IDs, reason, owner
+
+### Pass Criteria
+- [ ] GATE_CKB_01: every cited row has URL/report reference, access date, source owner, and tier
+- [ ] GATE_CKB_02: source tier is consistent with `references/source-tiers.md`
+- [ ] GATE_CKB_03: citations do not expose credentials or violate paid-source policy
+- [ ] GATE_CKB_INV_01: RAW row count is 0 before INTEGRATOR receives the dataset
+- [ ] GATE_CKB_04: unsupported or unverifiable claims are removed, repaired, or marked Insufficient
+
+### Fail / Repair Triggers
+- `SOURCE_FAILURE`: source provenance, tier, URL, or citation fails -> repair_request_to: ANALYST
+- `SECURITY_VIOLATION`: credential or license issue appears -> repair_request_to: USER
+- `GATE_FAIL`: RAW rows remain after source check -> repair_request_to: CHECKER_B
+
+### Required Handoff Envelope
+CHECKER_B responses must end with `SISYPHUS_HANDOFF_ENVELOPE` and exactly one `GATE_RESULT:` token. Example terminal token: `GATE_RESULT: PASS`.

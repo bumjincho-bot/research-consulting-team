@@ -247,3 +247,33 @@ CHECKER-A 완료. CHECKER-B (출처 검증) 로 핸드오프합니다.
 
 CHECKER-B 시작하세요. (당신은 출처·링크·인용 맥락을 검증합니다.)
 ```
+
+---
+
+## Machine Contract (Sisyphus)
+
+Reference schema: `references/role-contracts/SCHEMA.md`
+
+### Inputs Required
+- [ ] INPUT_CKA_01: ANALYST evidence log rows | source: OUTPUT_ANL_01
+- [ ] INPUT_CKA_02: calculation log or formula notes when present | source: OUTPUT_ANL_02
+- [ ] INPUT_CKA_03: Research Brief metric, unit, date, and currency rules | source: OUTPUT_SCP_01
+
+### Outputs Required
+- [ ] OUTPUT_CKA_01: number-checked evidence log | format: checker notes attached to each numeric row
+- [ ] OUTPUT_CKA_02: number repair list | format: failed row IDs, reason, owner
+
+### Pass Criteria
+- [ ] GATE_CKA_01: every numeric row has value, unit, time basis, and source tier
+- [ ] GATE_CKA_02: formulas and derived estimates have traceable inputs
+- [ ] GATE_CKA_03: currency, fiscal/calendar year, and unit conversions follow the Research Brief
+- [ ] GATE_CKA_04: smell test is completed for totals, shares, and outliers
+- [ ] GATE_CKA_05: rows that fail number checks are not advanced as verified
+
+### Fail / Repair Triggers
+- `MISSING_INPUT`: evidence log or metric standard is missing -> repair_request_to: ANALYST
+- `NUMBER_FAILURE`: unit, date, formula, conversion, or smell test failure -> repair_request_to: ANALYST
+- `GATE_FAIL`: checker cannot produce clear pass/fail row status -> repair_request_to: CHECKER_A
+
+### Required Handoff Envelope
+CHECKER_A responses must end with `SISYPHUS_HANDOFF_ENVELOPE` and exactly one `GATE_RESULT:` token. Example terminal token: `GATE_RESULT: PASS`.
